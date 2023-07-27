@@ -1,0 +1,24 @@
+{% extends 'products/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<h1>{{user.username}}`s Cart</h1>
+{% else %}
+<h1>You must <a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Signup</a> to use 'add to cart' function</h1>
+{% endif %}
+    {% for order in orders %}
+        {% if order.user == user %}
+        <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top"  src="{{ order.product.image.url }}" data-holder-rendered="true" alt="Products image">
+                <div class="card-body">
+                  <p class="card-text">{{ order.product.desc }}</p>
+                    <hr>
+                    <p>{{order.get_total}}$</p>
+                    <hr>
+                    <p>Quantity: {{order.quantity}}</p>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
